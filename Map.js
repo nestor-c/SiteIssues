@@ -5,23 +5,21 @@ const HEIGHT = window.innerHeight;
 function setup(){
     createCanvas(HEIGHT, WIDTH);
     let button = createButton('ADD');   
-    button.position(50,100);
+    button.position(25,25,100);
     button.mousePressed(()=>{
-        cRooms.push(new ClassRoom(50, 50, 100, 100))
+        cRooms.push(new ClassRoom(50, 50, 100, 100));
     })  
 }
-
 function mousePressed(){   
     cRooms.forEach(room=>{
         if (room.mouseOver) {
-            room.dragging = true;
+            room.toggleDragging();
             // If so, keep track of relative location of click to corner of rectangle
             room.offsetX = room._X-mouseX;
             room.offsetY = room._Y-mouseY;
         }
     }) 
 }
-
 function mouseReleased(){
     cRooms.forEach(room=>{
         if (room.mouseOver){
@@ -31,14 +29,20 @@ function mouseReleased(){
 }
 function draw(){
     background(51)
-    cRooms.forEach(room=>{
-        room.display();
-        room.toggleMouseOver();
-        room.move();    
-    })
+    for(let i=0; i < cRooms.length;i++){
+        cRooms[i].display();
+        cRooms[i].toggleMouseOver();
+        cRooms[i].move();    
+        if (cRooms.length >= 2){
+            for(let j=i+1;j<=cRooms.length-1;j++)
+            { 
+                console.log("J:" + j + " I: " + i);
+                let check = cRooms[i].intersection[cRooms[i],cRooms[j]];
+                if (check){console.log(check)}
+            }
+        }
+    }
 }
-
-
 class ClassRoom{
     constructor(gX, gY, gHeight, gWidth){
         this._X=gX;
@@ -55,12 +59,17 @@ class ClassRoom{
     get Y(){return this._Y;}
     get width(){return this._Width;}
     get height(){return this._Height;}
+    get offsetX(){return this._offsetX;}
+    get offsetY(){return this._offsetY;}
     //setters
     set X(x){ this._X=x;}
     set Y(y){ this._Y=y;}
     set width(w){ this._Width=w;}
     set height(h){ this._Height=h;}
-    
+    set offsetX(x){this._offsetX=x;}
+    set offsetY(y){this._offsetY=y;}
+
+
     intersection(c1, c2){
         //cube 1
         let lC1 = c1.X;
@@ -73,7 +82,7 @@ class ClassRoom{
         let tC2 = c2.Y;
         let bC2 = c2.Y+c2.height;
 
-        if ((lC1 > rC2 || rC2 < lC2) || (tC1 > bC2 || bC2 < tC2)) {
+        if ((lC1 > rC2 || rC1 < lC2) || (tC1 > bC2 || bC1 < tC2)) {
             return false;
         }
         else{
@@ -103,6 +112,8 @@ class ClassRoom{
     display(){
         let white = color(255, 255, 255);
         fill(white);
+        strokeWeight(4)
         rect(this._X,this._Y,this._Height, this._Width);    
+        text( 'Classroom',this._X, this._Y,)
     }     
 }
