@@ -4,11 +4,10 @@ const HEIGHT = window.innerHeight;
 
 function setup(){
     createCanvas(HEIGHT, WIDTH);
-    background(51);   
     let button = createButton('ADD');   
     button.position(50,100);
     button.mousePressed(()=>{
-        cRooms.push(new ClassRoom(random(HEIGHT)/4,random(WIDTH), 100, 100))
+        cRooms.push(new ClassRoom(50, 50, 100, 100))
     })  
 }
 
@@ -26,12 +25,12 @@ function mousePressed(){
 function mouseReleased(){
     cRooms.forEach(room=>{
         if (room.mouseOver){
-            room.dragging = false;
+            room.untoggleDragging();
         }
     })
 }
-
 function draw(){
+    background(51)
     cRooms.forEach(room=>{
         room.display();
         room.toggleMouseOver();
@@ -51,13 +50,48 @@ class ClassRoom{
         this._offsetX = 0;
         this._offsetY = 0;
     }
+    //getters
+    get X(){return this._X;}
+    get Y(){return this._Y;}
+    get width(){return this._Width;}
+    get height(){return this._Height;}
+    //setters
+    set X(x){ this._X=x;}
+    set Y(y){ this._Y=y;}
+    set width(w){ this._Width=w;}
+    set height(h){ this._Height=h;}
+    
+    intersection(c1, c2){
+        //cube 1
+        let lC1 = c1.X;
+        let rC1 = c1.X+c1.width;
+        let tC1 = c1.Y;
+        let bC1 = c1.Y+c1.height;
+        //cube 2
+        let lC2 = c2.X;
+        let rC2 = c2.X+c2.width;
+        let tC2 = c2.Y;
+        let bC2 = c2.Y+c2.height;
+
+        if ((lC1 > rC2 || rC2 < lC2) || (tC1 > bC2 || bC2 < tC2)) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
     move(){
         if (this.dragging) {
             this._X = mouseX + this._offsetX;
             this._Y = mouseY + this._offsetY;
           }
+    }   
+    toggleDragging(){
+        this.dragging = true;
     }
-    
+    untoggleDragging(){
+        this.dragging = false;
+    }
     toggleMouseOver(){
         if((mouseX >= this._X && mouseX <= this._X + this._Width) && (mouseY >= this._Y && mouseY <= this._Y + this._Height)){
             this.mouseOver = true;           
