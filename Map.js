@@ -36,9 +36,8 @@ function draw(){
         if (cRooms.length >= 2){
             for(let j=i+1;j<=cRooms.length-1;j++)
             { 
-                console.log("J:" + j + " I: " + i);
-                let check = cRooms[i].intersection[cRooms[i],cRooms[j]];
-                if (check){console.log(check)}
+                let check = cRooms[i].intersection(cRooms[i],cRooms[j]);
+                //if (check){}
             }
         }
     }
@@ -88,6 +87,38 @@ class ClassRoom{
         else{
             return true;
         }
+    }
+    snapTogether(c1, c2){
+        let c1_Divided={
+            //Top
+            lT:{x: c1.X, y: c1.Y},
+            mT:{x: c1.X+c1.width/2, y:c1.Y},
+            rT:{x: c1.X+c1.width, y:c1.Y},
+            //Middle
+            lM:{x:c1.X, y:c1.Y+c1.height/2},
+            mM:{x:c1.X+c1.width/2, y:c1.Y+c1.height/2},
+            rM:{x:c1.X+c1.width, y:c1.Y+c1.height/2},
+            //Bottom
+            lB:{x:c1.X,y:c1.Y+c1.height},
+            mB:{x:c1.X+c1.width/2,y:c1.Y+c1.height},
+            rB:{x:c1.X+c1.width,y:c1.Y+c1.height}
+        }
+        let c2_Divided={
+            //Top
+            lT:{x: c2.X, y: c2.Y},
+            mT:{x: c2.X+c2.width/2, y:c2.Y},
+            rT:{x: c2.X+c2.width, y:c2.Y},
+            //Middle
+            lM:{x:c2.X, y:c2.Y+c2.height/2},
+            mM:{x:c2.X+c2.width/2, y:c2.Y+c2.height/2},
+            rM:{x:c2.X+c2.width, y:c2.Y+c2.height/2},
+            //Bottom
+            lB:{x:c2.X,y:c2.Y+c2.height},
+            mB:{x:c2.X+c2.width/2,y:c2.Y+c2.height},
+            rB:{x:c2.X+c2.width,y:c2.Y+c2.height}
+        }
+        j
+        
     }
     move(){
         if (this.dragging) {
