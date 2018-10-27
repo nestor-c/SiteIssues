@@ -37,7 +37,9 @@ function draw(){
             for(let j=i+1;j<=cRooms.length-1;j++)
             { 
                 let check = cRooms[i].intersection(cRooms[i],cRooms[j]);
-                //if (check){}
+                if (check){
+                    cRooms[i].snapTogether(cRooms[j]);
+                }
             }
         }
     }
@@ -69,7 +71,7 @@ class ClassRoom{
     set offsetY(y){this._offsetY=y;}
 
 
-    intersection(c1, c2){
+  /*   intersection(c1, c2){
         //cube 1
         let lC1 = c1.X;
         let rC1 = c1.X+c1.width;
@@ -87,39 +89,89 @@ class ClassRoom{
         else{
             return true;
         }
+    } */
+    
+    //Do it without the items intersecting
+    snapTogether(c2){
+       
+
+      
     }
-    snapTogether(c1, c2){
-        let c1_Divided={
-            //Top
-            lT:{x: c1.X, y: c1.Y},
-            mT:{x: c1.X+c1.width/2, y:c1.Y},
-            rT:{x: c1.X+c1.width, y:c1.Y},
-            //Middle
-            lM:{x:c1.X, y:c1.Y+c1.height/2},
-            mM:{x:c1.X+c1.width/2, y:c1.Y+c1.height/2},
-            rM:{x:c1.X+c1.width, y:c1.Y+c1.height/2},
-            //Bottom
-            lB:{x:c1.X,y:c1.Y+c1.height},
-            mB:{x:c1.X+c1.width/2,y:c1.Y+c1.height},
-            rB:{x:c1.X+c1.width,y:c1.Y+c1.height}
+    
+    /* checkFourCorners(){
+        //check if Top left corner is in any of the four quadrants
+        let checkQ1= this.inQuadrant(dC1.q1.lT, dC2.q1);
+        let checkQ2= this.inQuadrant(dC1.q1.lT, dC2.q2);
+        let checkQ3= this.inQuadrant(dC1.q1.lT, dC2.q3);
+        let checkQ4= this.inQuadrant(dC1.q1.lT, dC2.q4);
+
+        if (checkQ1){
+           this.X = c2.X+c2.width; 
         }
-        let c2_Divided={
-            //Top
-            lT:{x: c2.X, y: c2.Y},
-            mT:{x: c2.X+c2.width/2, y:c2.Y},
-            rT:{x: c2.X+c2.width, y:c2.Y},
-            //Middle
-            lM:{x:c2.X, y:c2.Y+c2.height/2},
-            mM:{x:c2.X+c2.width/2, y:c2.Y+c2.height/2},
-            rM:{x:c2.X+c2.width, y:c2.Y+c2.height/2},
-            //Bottom
-            lB:{x:c2.X,y:c2.Y+c2.height},
-            mB:{x:c2.X+c2.width/2,y:c2.Y+c2.height},
-            rB:{x:c2.X+c2.width,y:c2.Y+c2.height}
+        else if (checkQ2){
+
         }
-        j
+        else if (checkQ3){
+
+        }
+        else if (checkQ4){
+
+        }
+    } 
+    
+
+     _divide(c){
+        //divides the given classroom into fourths as follows:
+           
+        lT___mT____rT
+        |    |     |
+        lM___mM____rM
+        |    |     |
+        lB___mB____rB   
         
+        return {
+            lT:{x: c.X, y: c.Y},
+            mT:{x: c.X+c.width/2, y:c.Y},
+            rT:{x: c.X+c.width, y:c.Y},
+            //Middle
+            lM:{x:c.X, y:c.Y+c.height/2},
+            mM:{x:c.X+c.width/2, y:c.Y+c.height/2},
+            rM:{x:c.X+c.width, y:c.Y+c.height/2},
+            //Bottom
+            lB:{x:c.X,y:c.Y+c.height},
+            mB:{x:c.X+c.width/2,y:c.Y+c.height},
+            rB:{x:c.X+c.width,y:c.Y+c.height}
+        }
+    } 
+
+    fourQuadrants(c){
+         /*   
+       ___  ____
+      | q2 | q1  |
+      |____ _____|
+      | q3 | q4  |
+      |____ _____|   
+    
+
+        let dC = this._divide(c);
+
+        return {
+             q1: [dC.mT,dC.rT,dC.mM,dC.rM],
+             q2: [dC.lT,dC.mT,dC.lM,dC.mM],
+             q3: [dC.rM,dC.mM,dC.lB,dC.mB],
+             q4: [dC.mM,dC.rM,dC.mB,dC.lB]
+        }
+    }  
+    inQuadrant(corner, quad){
+        //quad contains the coordinates for the four corners of a given quadrant
+        //The order is tL=[0], tR =[1], bL=[2], bR=[3]
+        if ((corner.x >= quad[0].x && corner.x < quad[1].x) && (corner.y >= quad[0].y && corner.y <= quad[2].y)){
+            return true;
+        }
+        else return false;
     }
+*/
+    
     move(){
         if (this.dragging) {
             this._X = mouseX + this._offsetX;
