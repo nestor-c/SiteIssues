@@ -71,7 +71,7 @@ class ClassRoom{
     set offsetY(y){this._offsetY=y;}
 
 
-  /*   intersection(c1, c2){
+   intersection(c1, c2){
         //cube 1
         let lC1 = c1.X;
         let rC1 = c1.X+c1.width;
@@ -89,13 +89,26 @@ class ClassRoom{
         else{
             return true;
         }
-    } */
+    } 
     
     //Do it without the items intersecting
     snapTogether(c2){
-       
+        let r = this.X + this.width;
+        let b = this.Y + this.height;
 
-      
+        let rC2 = c2.X+c2.width;
+        let bC2 = c2.Y+c2.height;
+
+        let l_xDiff = Math.abs(this.X - c2.X);
+        let l_yDiff = Math.abs(this.Y - c2.Y);
+        
+        let r_xDiff = Math.abs(r - rC2);
+        let r_yDiff = Math.abs(b-bC2);
+
+        if (l_xDiff/this.width < .2 || r_xDiff/this.width < .2){
+            if (l_yDiff/this.height){}
+        }
+        
     }
     
     /* checkFourCorners(){
