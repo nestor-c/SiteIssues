@@ -30,16 +30,13 @@ function mouseReleased(){
 function draw(){
     background(51)
     for(let i=0; i < cRooms.length;i++){
-        cRooms[i].display();
+        cRooms[i].display('classroom'+ i);
         cRooms[i].toggleMouseOver();
         cRooms[i].move();    
         if (cRooms.length >= 2){
             for(let j=i+1;j<=cRooms.length-1;j++)
             { 
-                let check = cRooms[i].intersection(cRooms[i],cRooms[j]);
-                if (check){
-                    cRooms[i].snapTogether(cRooms[j]);
-                }
+                    cRooms[i].snapTogether(cRooms[j]);  
             }
         }
     }
@@ -71,12 +68,12 @@ class ClassRoom{
     set offsetY(y){this._offsetY=y;}
 
 
-   intersection(c1, c2){
+   _intersection(c2){
         //cube 1
-        let lC1 = c1.X;
-        let rC1 = c1.X+c1.width;
-        let tC1 = c1.Y;
-        let bC1 = c1.Y+c1.height;
+        let lC1 = this.X;
+        let rC1 = this.X+this.width;
+        let tC1 = this.Y;
+        let bC1 = this.Y+this.height;
         //cube 2
         let lC2 = c2.X;
         let rC2 = c2.X+c2.width;
@@ -93,24 +90,52 @@ class ClassRoom{
     
     //Do it without the items intersecting
     snapTogether(c2){
+        let l = this.X;
         let r = this.X + this.width;
+        let t = this.Y;
         let b = this.Y + this.height;
 
-        let rC2 = c2.X+c2.width;
-        let bC2 = c2.Y+c2.height;
+        let l2 = c2.X;
+        let r2 = c2.X+c2.width;
+        let t2 = c2.Y;
+        let b2 = c2.Y+c2.height;
 
-        let l_xDiff = Math.abs(this.X - c2.X);
-        let l_yDiff = Math.abs(this.Y - c2.Y);
+        let l_Diff = Math.abs(l-l2);
+        let r_Diff = Math.abs(r - r2);
+        let t_Diff = Math.abs(t-t2);
+        let b_Diff = Math.abs(b-b2);
+
+        let threshold = .1;
         
-        let r_xDiff = Math.abs(r - rC2);
-        let r_yDiff = Math.abs(b-bC2);
+        let intersecting =this._intersection(c2);
 
-        if (l_xDiff/this.width < .2 || r_xDiff/this.width < .2){
-            if (l_yDiff/this.height){}
+        if (intersecting){
+            if (l_Diff/this.width < threshold || r_Diff/this.width < threshold){
+                console.log(l_Diff);
+                if (t_Diff/this.height >= .5){
+                    this.X = l2;
+                    this.Y = b2;
+                }
+                else if (t_Diff/this.height < .5){
+                    this.X = r2;
+                    this.Y = t2;
+                }
+            }     
+            else if (t_Diff/this.height < threshold || b_Diff/this.height < threshold){
+                console.log(t_Diff);
+                if (l_Diff/this.width >= .5){
+                    this.X = l2;
+                    this.Y = b2;
+                }
+                else if (r_Diff/this.width < .5){
+                    this.X = r2;
+                    this.Y = t2;
+                }
+            }
         }
-        
     }
-    
+
+        
     /* checkFourCorners(){
         //check if Top left corner is in any of the four quadrants
         let checkQ1= this.inQuadrant(dC1.q1.lT, dC2.q1);
@@ -205,11 +230,11 @@ class ClassRoom{
             this.mouseOver = false;
         }
     }
-    display(){
+    display(name){
         let white = color(255, 255, 255);
         fill(white);
         strokeWeight(4)
         rect(this._X,this._Y,this._Height, this._Width);    
-        text( 'Classroom',this._X, this._Y,)
+        text( name,this._X, this._Y,)
     }     
 }
