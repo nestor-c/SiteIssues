@@ -27,16 +27,24 @@ function mouseReleased(){
         }
     })
 }
+function mouseDragged(){
+    for (let i = 0; i < cRooms.lengthj;){
+        for(let j=i+1;j<=cRooms.length-1;j++)
+        { 
+                cRooms[i].snapTogether(cRooms[j]);  
+        }
+    }
+}
 function draw(){
     background(51)
     for(let i=0; i < cRooms.length;i++){
         cRooms[i].display('classroom'+ i);
         cRooms[i].toggleMouseOver();
-        cRooms[i].move();    
+        cRooms[i].move();  
         if (cRooms.length >= 2){
-            for(let j=i+1;j<=cRooms.length-1;j++)
-            { 
-                    cRooms[i].snapTogether(cRooms[j]);  
+            for(let j= i+1; j <= cRooms.length-1; j++){
+                cRooms[i].snapTogether(cRooms[j]);
+                cRooms[j].snapTogether(cRooms[i]);
             }
         }
     }
@@ -87,129 +95,38 @@ class ClassRoom{
             return true;
         }
     } 
-    
-    //Do it without the items intersecting
+    //Fix slight shift of rectangle when mouse is released.
     snapTogether(c2){
+        //Four sides of calling classroom
         let l = this.X;
         let r = this.X + this.width;
         let t = this.Y;
         let b = this.Y + this.height;
-
+        //Four sides of target classroom
         let l2 = c2.X;
         let r2 = c2.X+c2.width;
         let t2 = c2.Y;
         let b2 = c2.Y+c2.height;
 
-        let l_Diff = Math.abs(l-l2);
-        let r_Diff = Math.abs(r - r2);
-        let t_Diff = Math.abs(t-t2);
-        let b_Diff = Math.abs(b-b2);
-
-        let threshold = .1;
+        //First condition
+        let lr2_Diff = Math.abs(l-r2);
+        let rl2_Diff = Math.abs(r - l2);
+        let tb2_Diff = Math.abs(t-b2);
+        let bt2_Diff = Math.abs(b-t2);
+        //Second condition
+        let tt2_Diff = Math.abs(t-t2)
+        let ll2_Diff = Math.abs(l-l2)
         
-        let intersecting =this._intersection(c2);
-
-        if (intersecting){
-            if (l_Diff/this.width < threshold || r_Diff/this.width < threshold){
-                console.log(l_Diff);
-                if (t_Diff/this.height >= .5){
-                    this.X = l2;
-                    this.Y = b2;
-                }
-                else if (t_Diff/this.height < .5){
-                    this.X = r2;
-                    this.Y = t2;
-                }
-            }     
-            else if (t_Diff/this.height < threshold || b_Diff/this.height < threshold){
-                console.log(t_Diff);
-                if (l_Diff/this.width >= .5){
-                    this.X = l2;
-                    this.Y = b2;
-                }
-                else if (r_Diff/this.width < .5){
-                    this.X = r2;
-                    this.Y = t2;
-                }
-            }
+        let threshold = 30;
+        
+        if(this.dragging){       
+            if    (lr2_Diff < threshold && tt2_Diff < threshold){ this.X = r2; this.Y=t2;}
+            else if(rl2_Diff < threshold && tt2_Diff< threshold){ this.X = l2 - c2.width; this.Y=t2;}
+        //ADD a X-threshold component check to this                    
+            else if(tb2_Diff < threshold && ll2_Diff < threshold){ this.Y = b2; this.X=l2}
+            else if(bt2_Diff < threshold && ll2_Diff < threshold){ this.Y = t2 - c2.height; this.X = l2}
         }
     }
-
-        
-    /* checkFourCorners(){
-        //check if Top left corner is in any of the four quadrants
-        let checkQ1= this.inQuadrant(dC1.q1.lT, dC2.q1);
-        let checkQ2= this.inQuadrant(dC1.q1.lT, dC2.q2);
-        let checkQ3= this.inQuadrant(dC1.q1.lT, dC2.q3);
-        let checkQ4= this.inQuadrant(dC1.q1.lT, dC2.q4);
-
-        if (checkQ1){
-           this.X = c2.X+c2.width; 
-        }
-        else if (checkQ2){
-
-        }
-        else if (checkQ3){
-
-        }
-        else if (checkQ4){
-
-        }
-    } 
-    
-
-     _divide(c){
-        //divides the given classroom into fourths as follows:
-           
-        lT___mT____rT
-        |    |     |
-        lM___mM____rM
-        |    |     |
-        lB___mB____rB   
-        
-        return {
-            lT:{x: c.X, y: c.Y},
-            mT:{x: c.X+c.width/2, y:c.Y},
-            rT:{x: c.X+c.width, y:c.Y},
-            //Middle
-            lM:{x:c.X, y:c.Y+c.height/2},
-            mM:{x:c.X+c.width/2, y:c.Y+c.height/2},
-            rM:{x:c.X+c.width, y:c.Y+c.height/2},
-            //Bottom
-            lB:{x:c.X,y:c.Y+c.height},
-            mB:{x:c.X+c.width/2,y:c.Y+c.height},
-            rB:{x:c.X+c.width,y:c.Y+c.height}
-        }
-    } 
-
-    fourQuadrants(c){
-         /*   
-       ___  ____
-      | q2 | q1  |
-      |____ _____|
-      | q3 | q4  |
-      |____ _____|   
-    
-
-        let dC = this._divide(c);
-
-        return {
-             q1: [dC.mT,dC.rT,dC.mM,dC.rM],
-             q2: [dC.lT,dC.mT,dC.lM,dC.mM],
-             q3: [dC.rM,dC.mM,dC.lB,dC.mB],
-             q4: [dC.mM,dC.rM,dC.mB,dC.lB]
-        }
-    }  
-    inQuadrant(corner, quad){
-        //quad contains the coordinates for the four corners of a given quadrant
-        //The order is tL=[0], tR =[1], bL=[2], bR=[3]
-        if ((corner.x >= quad[0].x && corner.x < quad[1].x) && (corner.y >= quad[0].y && corner.y <= quad[2].y)){
-            return true;
-        }
-        else return false;
-    }
-*/
-    
     move(){
         if (this.dragging) {
             this._X = mouseX + this._offsetX;
