@@ -1,4 +1,5 @@
-import {ClassRoom} from "./ClassRoom.js"
+
+import {ClassRoom} from './ClassRoom.js';
 
 let cRooms = [];
 const WIDTH = window.innerWidth;
@@ -52,3 +53,8 @@ function draw(){
         }
     }
 }
+
+window.setup = setup; 
+window.draw = draw;
+window.mousePressed= mousePressed;
+window.mouseReleased=mouseReleased;
