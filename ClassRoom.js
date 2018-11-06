@@ -67,7 +67,7 @@ export class ClassRoom{
         let tt2_Diff = Math.abs(t-t2)
         let ll2_Diff = Math.abs(l-l2)
         
-        let threshold = 10;
+        let threshold = 30;
 
         if(this.dragging){                  
             if    (lr2_Diff < threshold && tt2_Diff < threshold){ 
