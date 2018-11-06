@@ -8,7 +8,7 @@ const HEIGHT = window.innerHeight;
 function setup(){
     createCanvas(HEIGHT, WIDTH);
     let button = createButton('ADD');   
-    button.position(25,25,100);
+    button.position(50,25,100);
     button.mousePressed(()=>{
         cRooms.push(new ClassRoom(50, 50, 100, 100));
     })  

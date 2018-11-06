@@ -1,6 +1,6 @@
       // Client ID and API key from the Developer Console
-      require('dotenv').config()
-
+      var CLIENT_ID = config.CLIENT_ID;
+  
       // Array of API discovery doc URLs for APIs used by the quickstart
       var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 
@@ -11,7 +11,6 @@
       var authorizeButton = document.getElementById('authorize_button');
       var signoutButton = document.getElementById('signout_button');
 
-      console.log(authorizeButton);
       /**
        *  On load, called to load the auth2 library and API client library.
        */
@@ -25,7 +24,7 @@
        */
       function initClient() {
         gapi.client.init({
-          apiKey: API_KEY,
+          // apiKey: API_KEY,
           clientId: CLIENT_ID,
           discoveryDocs: DISCOVERY_DOCS,
           scope: SCOPES
