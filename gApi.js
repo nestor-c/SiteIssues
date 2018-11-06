@@ -1,5 +1,5 @@
       // Client ID and API key from the Developer Console
-      
+      require('dotenv').config()
 
       // Array of API discovery doc URLs for APIs used by the quickstart
       var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
