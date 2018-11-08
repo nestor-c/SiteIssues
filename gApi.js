@@ -8,6 +8,7 @@
       // included, separated by spaces.
       var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
 
+	  export const uniqueRooms;
       var authorizeButton = document.getElementById('authorize_button');
       var signoutButton = document.getElementById('signout_button');
 
@@ -86,16 +87,29 @@
           spreadsheetId: '196lNOIgV-n_010Sysg07bf3_R4CP3Fb2mc-Bz3CKdmk',
           range: 'Live',
         }).then(function(response) {
-          var range = response.result;
-          response.result.values.forEach(element => {
-              if (element[3].toUpperCase() === 'CHROMEBOOK')
-                appendPre(element[4]);
-              ;
-          });
+		  let roomNumber = [];
+		  response.result.values.forEach(element => {
+				roomNumber.push(element[5]);
+		  });
+		  
+		  uniqueRooms = findUnique(roomNumber);
+		  
+		  console.log("unique:" + uniqueRooms);
+		  console.log(uniqueRooms.length);
+
         }, function(response) {
           appendPre('Error: ' + response.result.error.message);
         });
-      }
+	  }
+
+	  function findUnique(arr){
+		const unique = (value, index, self) => {
+			return self.indexOf(value) === index;
+		}
+		
+		const uniqueValues = arr.filter(unique);
+		return uniqueValues;
+	  }
 
    
 

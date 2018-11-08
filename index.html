@@ -11,17 +11,24 @@
   
   <body>
 		
-    <!-- <p>Tech Ticket Visualized</p> -->
+    <p>Tech Ticket Visualized</p>
 
-    <!-- Add buttons to initiate auth sequence and sign out
-    <button id="authorize_button" style="display: none;">Authorize</button>
-    <button id="signout_button" style="display: none;">Sign Out</button>
-
-    <pre id="content"></pre>
-
+    <!-- Add buttons to initiate auth sequence and sign out -->
+	
+	<button id="authorize_button" style="display:none;">Authorize</button>
+	<button id="signout_button" style="display: none;">Sign Out</button> 
+	
+	<div id="canvas" style="position:relative;"></div>
+	<!-- Adds a section of text that is "PRE"formatted -->	
+	
+	
+	<pre id="content"></pre>
+	
     <script async defer src="https://apis.google.com/js/api.js"
       onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
-      <script src="gApi.js"></script>  --> -->
+	  onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+	
+	<script src="gApi.js"></script>  
+       
   </body>
 </html>

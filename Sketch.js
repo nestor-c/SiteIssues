@@ -1,14 +1,19 @@
 
 import {ClassRoom} from './ClassRoom.js';
+import {uniqueRooms} from './gApi.js';
 
 let cRooms = [];
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
+
+
 function setup(){
-    createCanvas(HEIGHT, WIDTH);
-    let button = createButton('ADD');   
-    button.position(50,25,100);
+    var myCanvas = createCanvas(HEIGHT, WIDTH);
+	let button = createButton('ADD');   
+	myCanvas.parent("canvas");
+	button.parent("canvas");
+    button.position(50,50);
     button.mousePressed(()=>{
         cRooms.push(new ClassRoom(50, 50, 100, 100));
     })  
@@ -32,18 +37,6 @@ function mouseReleased(){
 }
 function draw(){
     background(51)
-    // let name = 'classroom'
-    // cRooms.forEach(room=>{
-    //     room.display(name)
-    //     room.toggleMouseOver();
-    //     room.move()
-    //     cRooms.forEach(other=>{
-    //         room.snapTogether(other);   
-    //     })
-    // })
-
-    //This loop was causing a slight shift of the classrooms as each was snapped together. 
-    // it may have to do with the order that the snapTogether is called.
     for(let i=0; i < cRooms.length;i++){
         cRooms[i].display('classroom'+ i);
         cRooms[i].toggleMouseOver();
@@ -56,5 +49,5 @@ function draw(){
 
 window.setup = setup; 
 window.draw = draw;
-window.mousePressed= mousePressed;
+window.mousePressed=mousePressed;
 window.mouseReleased=mouseReleased;
