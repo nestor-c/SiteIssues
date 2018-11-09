@@ -1,12 +1,10 @@
 
 import {ClassRoom} from './ClassRoom.js';
-import {uniqueRooms} from './gApi.js';
+
 
 let cRooms = [];
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
-
-
 
 function setup(){
     var myCanvas = createCanvas(HEIGHT, WIDTH);

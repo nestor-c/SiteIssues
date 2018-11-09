@@ -8,7 +8,6 @@
       // included, separated by spaces.
       var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
 
-	  export const uniqueRooms;
       var authorizeButton = document.getElementById('authorize_button');
       var signoutButton = document.getElementById('signout_button');
 
@@ -79,10 +78,15 @@
         var pre = document.getElementById('content');
         var textContent = document.createTextNode(message + '\n' + '\n');
         pre.appendChild(textContent);
-      }
+	  }
+	  function addNull(Message){
+		var nullDiv = document.getElementById("nullDiv");
+		var textContent = document.createTextNode(messange+'\n'+'\n');
+		nullDiv.appendChild(textContent);
+	  }
 
       
-      function listTickets() {
+    export function listTickets() {
         gapi.client.sheets.spreadsheets.values.get({
           spreadsheetId: '196lNOIgV-n_010Sysg07bf3_R4CP3Fb2mc-Bz3CKdmk',
           range: 'Live',
@@ -92,10 +96,10 @@
 				roomNumber.push(element[5]);
 		  });
 		  
-		  uniqueRooms = findUnique(roomNumber);
-		  
-		  console.log("unique:" + uniqueRooms);
-		  console.log(uniqueRooms.length);
+		   return uniqueRooms = findUnique(roomNumber);
+			  
+		   console.log(uniqueRooms);
+		   
 
         }, function(response) {
           appendPre('Error: ' + response.result.error.message);
