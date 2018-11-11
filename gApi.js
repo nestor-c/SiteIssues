@@ -1,21 +1,22 @@
-      // Client ID and API key from the Developer Console
+  
+    window.onload = handleClientLoad;
+    // Client ID and API key from the Developer Console
       var CLIENT_ID = config.CLIENT_ID;
   
       // Array of API discovery doc URLs for APIs used by the quickstart
       var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
-
+      export let uniqueRooms;
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
       var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
 
-	  export const uniqueRooms;
       var authorizeButton = document.getElementById('authorize_button');
       var signoutButton = document.getElementById('signout_button');
 
       /**
        *  On load, called to load the auth2 library and API client library.
        */
-      function handleClientLoad() {
+      export async function handleClientLoad() {
         gapi.load('client:auth2', initClient);
       }
 
@@ -34,7 +35,8 @@
           gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
           // Handle the initial sign-in state.
-          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+          if (Array.isArray(updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get())))
+          updateSigninStatus();
           authorizeButton.onclick = handleAuthClick;
           signoutButton.onclick = handleSignoutClick;
         });
@@ -48,13 +50,9 @@
         if (isSignedIn) {
           authorizeButton.style.display = 'none';
           signoutButton.style.display = 'block';
-          listTickets();
-        } else {
-          authorizeButton.style.display = 'block';
-          signoutButton.style.display = 'none';
+         listTickets();
         }
       }
-
       /**
        *  Sign in the user upon button click.
        */
@@ -91,11 +89,7 @@
 		  response.result.values.forEach(element => {
 				roomNumber.push(element[5]);
 		  });
-		  
-		  uniqueRooms = findUnique(roomNumber);
-		  
-		  console.log("unique:" + uniqueRooms);
-		  console.log(uniqueRooms.length);
+		   uniqueRooms = findUnique(roomNumber);
 
         }, function(response) {
           appendPre('Error: ' + response.result.error.message);

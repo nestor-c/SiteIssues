@@ -1,12 +1,10 @@
 
 import {ClassRoom} from './ClassRoom.js';
-import {uniqueRooms} from './gApi.js';
+import {handleClientLoad, uniqueRooms} from './gApi.js';
 
 let cRooms = [];
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
-
-
 
 function setup(){
     var myCanvas = createCanvas(HEIGHT, WIDTH);
@@ -14,6 +12,14 @@ function setup(){
 	myCanvas.parent("canvas");
 	button.parent("canvas");
     button.position(50,50);
+
+    handleClientLoad.then(function(){
+        for(let i=0; i< uniqueRooms.length;i++)
+        {
+            cRooms.push(new ClassRoom(50,50,100,100));
+        };
+    });
+
     button.mousePressed(()=>{
         cRooms.push(new ClassRoom(50, 50, 100, 100));
     })  
