@@ -1,6 +1,5 @@
-
+import {handleClientLoad} from './gAPI.js' 
 import {ClassRoom} from './ClassRoom.js';
-import {handleClientLoad, uniqueRooms} from './gApi.js';
 
 let cRooms = [];
 const WIDTH = window.innerWidth;
@@ -8,21 +7,8 @@ const HEIGHT = window.innerHeight;
 
 function setup(){
     var myCanvas = createCanvas(HEIGHT, WIDTH);
-	let button = createButton('ADD');   
-	myCanvas.parent("canvas");
-	button.parent("canvas");
-    button.position(50,50);
-
-    handleClientLoad.then(function(){
-        for(let i=0; i< uniqueRooms.length;i++)
-        {
-            cRooms.push(new ClassRoom(50,50,100,100));
-        };
-    });
-
-    button.mousePressed(()=>{
-        cRooms.push(new ClassRoom(50, 50, 100, 100));
-    })  
+    myCanvas.parent("canvas");
+    window.onload = handleClientLoad(cRooms);
 }
 function mousePressed(){   
     cRooms.forEach(room=>{
@@ -53,7 +39,9 @@ function draw(){
     }
 }
 
+
 window.setup = setup; 
+window.onload = window.setup
 window.draw = draw;
 window.mousePressed=mousePressed;
 window.mouseReleased=mouseReleased;

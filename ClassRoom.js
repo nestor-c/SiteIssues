@@ -8,6 +8,7 @@ export class ClassRoom{
         this.dragging = false;
         this._offsetX = 0;
         this._offsetY = 0;
+        this._active=false;
     }
     //getters
     get X(){return this._X;}
@@ -23,7 +24,6 @@ export class ClassRoom{
     set height(h){ this._Height=h;}
     set offsetX(x){this._offsetX=x;}
     set offsetY(y){this._offsetY=y;}
-
 
    _intersection(c2){
         //cube 1
