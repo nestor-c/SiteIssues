@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+<<<<<<< HEAD
     <title>Drive API Quickstart</title>
     <meta charset="utf-8" />
   </head>
@@ -119,5 +120,37 @@
       onload="this.onload=function(){};handleClientLoad()"
       onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
+=======
+    <title>Tech Ticket Visualized</title>
+    <meta charset="utf-8" />
+    <script src="config.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.js"></script>
+	<script src="./Sketch.js" type='module'></script>   	
+  </head>
+  
+  <body>
+		
+    <p>Tech Ticket Visualized</p>
+
+    <!-- Add buttons to initiate auth sequence and sign out -->
+	
+	<button id="authorize_button" style="display:none;">Authorize</button>
+	<button id="signout_button" style="display: none;">Sign Out</button> 
+	
+	<!-- <div id="canvas" style="position:relative;"></div> -->
+	<!-- Adds a section of text that is "PRE"formatted -->	
+	
+	
+	<pre id="content"></pre>
+	<div id="nullDiv"></div>
+	
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+	  onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+	
+	<script src="gApi.js"></script>  
+       
+>>>>>>> myLaptop
   </body>
 </html>
