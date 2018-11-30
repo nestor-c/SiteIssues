@@ -34,7 +34,7 @@ function initClient(cRooms) {
 		 * */
 		gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus.bind(null, cRooms));
 		// Handle the initial sign-in state.
-		updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get(), cRooms);
+		updateSigninStatus(cRooms, gapi.auth2.getAuthInstance().isSignedIn.get());
 		authorizeButton.onclick = handleAuthClick;
 		signoutButton.onclick = handleSignoutClick;
 	});
@@ -44,7 +44,7 @@ function initClient(cRooms) {
  *  Called when the signed in status changes, to update the UI
  *  appropriately. After a sign-in, the API is called.
  */
-function updateSigninStatus(isSignedIn, cRooms) {
+function updateSigninStatus(cRooms, isSignedIn) {
 	if (isSignedIn) {
 		authorizeButton.style.display = 'none';
 		signoutButton.style.display = 'block';
@@ -52,6 +52,9 @@ function updateSigninStatus(isSignedIn, cRooms) {
 	} else if (!isSignedIn) {
 		authorizeButton.style.display = 'block'
 		signoutButton.style.display = 'none'
+		if (cRooms.length != 0){
+			cRooms.length = 0;
+		}
 	}
 }
 /**
@@ -107,7 +110,7 @@ function listTickets(cRooms) {
 			cRooms.push(new ClassRoom(50, 50, 50, 50));
 		}
 	}, function (response) {
-		appendPre('Error: ' + response.result.error.message);
+		console.log('Error: ' + response.result.error.message);
 	})
 }
 function findUnique(arr) {
