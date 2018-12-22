@@ -1,4 +1,4 @@
-import {ClassRoom} from "./ClassRoom.js";
+import {Rectangle} from "./Rectangle.js";
 
 // Client ID and API key from the Developer Console
 var CLIENT_ID = config.CLIENT_ID;
@@ -39,7 +39,6 @@ function initClient(cRooms) {
 		signoutButton.onclick = handleSignoutClick;
 	});
 }
-
 /**
  *  Called when the signed in status changes, to update the UI
  *  appropriately. After a sign-in, the API is called.
@@ -52,7 +51,7 @@ function updateSigninStatus(cRooms, isSignedIn) {
 	} else if (!isSignedIn) {
 		authorizeButton.style.display = 'block'
 		signoutButton.style.display = 'none'
-		if (cRooms.length != 0){
+		if (cRooms.length != 0) {
 			cRooms.length = 0;
 		}
 	}
@@ -84,7 +83,6 @@ function handleSignoutClick(event) {
 	gapi.auth2.getAuthInstance().signOut();
 	console.log('Signed out');
 }
-
 // /**
 //  * Append a pre element to the body containing the given message
 //  * as its text node. Used to display the results of the API call.
@@ -107,12 +105,13 @@ function listTickets(cRooms) {
 		});
 		let uniqueRooms = findUnique(roomNumber);
 		for (let i = 1; i < uniqueRooms.length; i++) {
-			cRooms.push(new ClassRoom(50, 50, 50, 50));
+			cRooms.push(new Rectangle(50, 50, 50, 50));
 		}
 	}, function (response) {
 		console.log('Error: ' + response.result.error.message);
 	})
 }
+
 function findUnique(arr) {
 	const unique = (value, index, self) => {
 		return self.indexOf(value) === index;
