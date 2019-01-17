@@ -1,7 +1,7 @@
 import { Rectangle } from "./Rectangle.js";
 
 // import {handleClientLoad} from './gAPI.js'
-
+//TODO: Make an easy to implement classroom creator
 let cRooms = [];
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -10,11 +10,29 @@ function setup() {
 	var myCanvas = createCanvas(HEIGHT, WIDTH);
 	myCanvas.parent("canvas");
 	
-	for (let i=0; i<5; i++){
-		cRooms.push(new Rectangle(300,300,200,200));
-	}
-	
+	cRooms = createClassRooms(5);
 	// window.onload = handleClientLoad(cRooms);
+}
+
+/**
+ * 
+ * @param {num} num The number of classrooms to create;
+ * @param {*} param1 You can designate the height and width for a few or all classrooms. 
+ * @param {*} param2 You can designate the location for a few or all classrooms.
+ */
+function createClassRooms(num,dim,coord){
+	if (dim != null && coord != null && num != null){
+		let rooms = [];
+		let randX= Math.floor(Math.random() * WIDTH);
+		let randY= Math.floor(Math.random() * HEIGHT);
+		for(let i=0;i < num; i++){
+			rooms.push(new Rectangle(randX,randY,200,200))
+		}
+	} else if (dim != null || coord){
+
+	}
+
+	return rooms;
 }
 
 function draw() {
@@ -49,35 +67,7 @@ function mouseReleased() {
 		}
 	})
 }
-function shallowest(rooms){
-	//COND: We only need the rooms that are intersecting.
-	// Might also only want to grab those that the mouse is clicking on.
-	if (rooms.length >= 2) {
-		let shallowest = rooms[0];
 
-		rooms.forEach(rm => {
-			if (rm.depth < shallowest.depth) {
-				shallowest = rm;
-			}
-		});
-		return shallowest;
-	}
-}
-function stackedClassrooms(cRooms) {
-	//COND: Check which classrooms are intersecting.
-	// Return an array of all intersecting classrooms.
-	if (cRooms.lenght >= 2) {
-		var stacked = [];
-		for (let i = 0; i < cRooms.length - 1; i++) {
-			for (let j = i + 1; j < cRooms.length; j++) {
-				if (cRooms[i]._intersecting(j)) {
-					stacked.push(cRooms[i]);
-					stacked.push(cRooms[j]);
-				}
-			}
-		}
-	}
-}
 window.setup = setup;
 window.onload = window.setup
 window.draw = draw;

@@ -29,8 +29,17 @@ export class Rectangle{
     //TODO: add a way to find other instances and determine
     // which is shallower irrispective of whether they are in
     //an array. Answer may lie in prototype object.
-
-   _intersection(c2){
+	distanceOverlap(c2){
+		if((this.X === c2.X || this.Y === c2.Y) && (d >=0 && d<=200))
+		{
+			return true;
+		}	
+		else if (d>=0 && d <= 200){
+			return true;
+		}
+		else return false;
+	}
+	_intersection(c2){
         //cube 1
         let lC1 = this.X;
         let rC1 = this.X+this.width;
@@ -49,8 +58,7 @@ export class Rectangle{
             return true;
         }
     } 
-    snapTogether(c2){   
-        
+    snapTogether(c2){
         //Four sides of calling classroom
         let l = this.X;
         let r = this.X + this.width;
