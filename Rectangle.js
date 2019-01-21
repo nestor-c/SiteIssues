@@ -10,6 +10,7 @@ export class Rectangle{
         this._offsetX = 0;
         this._offsetY = 0;
         this._active=false;
+        this.overlapping=[];
     }
     //getters
     get X(){return this._X;}
@@ -25,20 +26,20 @@ export class Rectangle{
     set height(h){ this._Height=h;}
     set offsetX(x){this._offsetX=x;}
 	set offsetY(y){this._offsetY=y;}
-	//====================
-    //TODO: add a way to find other instances and determine
-    // which is shallower irrispective of whether they are in
-    //an array. Answer may lie in prototype object.
-	distanceOverlap(c2){
-		if((this.X === c2.X || this.Y === c2.Y) && (d >=0 && d<=200))
-		{
-			return true;
-		}	
-		else if (d>=0 && d <= 200){
-			return true;
-		}
-		else return false;
-	}
+    //====================
+    overlap(c2){
+        let corner = {X:this.X + this.width, Y:this.Y+this.height}
+        let dist_Corner = dist(this.X,this.Y,corner.X, corner.Y)
+        let d = dist(this.X,this.Y,c2.X,c2.Y);
+    
+        if ((this.X === c2.X || this.Y === c2.Y) && d <= this.width){
+            console.log(`Overlapping one`);
+        }
+        else if (this.X != c2.X && this.Y != c2.Y && d <= dist_Corner){
+            console.log('Overlapping two')
+        }
+        else    console.log("False");
+    }
 	_intersection(c2){
         //cube 1
         let lC1 = this.X;
@@ -123,7 +124,7 @@ export class Rectangle{
     display(name){
         let white = color(255, 255, 255);
         fill(white);
-        strokeWeight(4)
+        strokeWeight(1);
         rect(this._X,this._Y,this._Height, this._Width);    
         fill(180, 200, 25);
         text(name,this._X + 20 , this._Y + 20)
