@@ -55,6 +55,7 @@ function updateSigninStatus(cRooms, isSignedIn) {
 			cRooms.length = 0;
 		}
 	}
+	
 }
 /**
  *  Sign in the user upon button click.

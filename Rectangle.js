@@ -1,4 +1,10 @@
-
+/**
+ * @constructor 
+ * @param {num} gX - X coordinate
+ * @param {num} gY - Y coordinate
+ * @param {num} gHeight - Height
+ * @param {num} gWidth - Width
+ */
 export class Rectangle{
     constructor(gX, gY, gHeight, gWidth){
         this._X=gX;
@@ -10,7 +16,7 @@ export class Rectangle{
         this._offsetX = 0;
         this._offsetY = 0;
         this._active=false;
-        this.overlapping=[];
+        //this.overlapping=[];
     }
     //getters
     get X(){return this._X;}
@@ -19,13 +25,15 @@ export class Rectangle{
     get height(){return this._Height;}
     get offsetX(){return this._offsetX;}
     get offsetY(){return this._offsetY;}
+    get active(){return this._active};
     //setters
     set X(x){ this._X=x;}
     set Y(y){ this._Y=y;}
     set width(w){ this._Width=w;}
     set height(h){ this._Height=h;}
     set offsetX(x){this._offsetX=x;}
-	set offsetY(y){this._offsetY=y;}
+    set offsetY(y){this._offsetY=y;}
+    set active(bool){this._active=bool;}
     //====================
     overlap(c2){
         let corner = {X:this.X + this.width, Y:this.Y+this.height}
@@ -113,7 +121,7 @@ export class Rectangle{
     untoggleDragging(){
         this.dragging = false;
     }
-    checkAndToggleMouseOver(){
+    trackMouseOver(){
         if((mouseX >= this._X && mouseX <= this._X + this._Width) && (mouseY >= this._Y && mouseY <= this._Y + this._Height)){
             this.mouseOver = true;           
         }
@@ -121,10 +129,17 @@ export class Rectangle{
             this.mouseOver = false;
         }
     }
-    display(name){
-        let white = color(255, 255, 255);
-        fill(white);
-        strokeWeight(1);
+    
+    display(name,u_color,stroke){
+       if (u_color === undefined){
+           let dfColor = "#e3e5e8"
+            fill(dfColor);
+        }
+        else fill(u_color); 
+        
+        if (stroke === undefined)strokeWeight(1)
+        else strokeWeight(stroke);
+
         rect(this._X,this._Y,this._Height, this._Width);    
         fill(180, 200, 25);
         text(name,this._X + 20 , this._Y + 20)
