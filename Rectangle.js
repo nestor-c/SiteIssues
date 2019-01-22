@@ -1,4 +1,10 @@
-
+/**
+ * @constructor 
+ * @param {num} gX - X coordinate
+ * @param {num} gY - Y coordinate
+ * @param {num} gHeight - Height
+ * @param {num} gWidth - Width
+ */
 export class Rectangle{
     constructor(gX, gY, gHeight, gWidth){
         this._X=gX;
@@ -25,8 +31,12 @@ export class Rectangle{
     set width(w){ this._Width=w;}
     set height(h){ this._Height=h;}
     set offsetX(x){this._offsetX=x;}
-	set offsetY(y){this._offsetY=y;}
+    set offsetY(y){this._offsetY=y;}
+    
     //====================
+    setActive(){
+        _active=true;
+    }
     overlap(c2){
         let corner = {X:this.X + this.width, Y:this.Y+this.height}
         let dist_Corner = dist(this.X,this.Y,corner.X, corner.Y)
