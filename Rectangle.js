@@ -35,6 +35,9 @@ export class Rectangle{
     set offsetY(y){this._offsetY=y;}
     set active(bool){this._active=bool;}
     //====================
+    setActive(){
+        _active=true;
+    }
     overlap(c2){
         let corner = {X:this.X + this.width, Y:this.Y+this.height}
         let dist_Corner = dist(this.X,this.Y,corner.X, corner.Y)
