@@ -14,28 +14,33 @@ function setup() {
 }
 function draw() {
 	const rooms = classController.classes;
-	classController.trackActive();
+	
+
 	let bgColor = '#b7bfcc';
 	background(bgColor);
+	
 	for (let i = 0; i < rooms.length; i++) {
+		classController.trackActive(rooms[i]);
 		if (rooms[i].active){
 			let fillColor = '#ffffff';
 			rooms[i].display(`Classroom ${i}`, fillColor);
 		}
-		else {rooms[i].display('Classroom' + i)};
+		else { rooms[i].display('Classroom' + i)};
 		rooms[i].trackMouseOver();
 		rooms[i].move();
-		
 		for (let j = 0; j < rooms.length; j++) {
 			rooms[i].snapTogether(rooms[j]);
 		}
 	}
 }
-function mousePressed() {
+function mousePressed(){
 	let rooms = classController.classes;
 	rooms.forEach(room => {
 		if (room.mouseOver) {
-			room.toggleDragging();
+			room.dragging=true;
+			if (room.dragging){
+				console.log(room)
+			}
 			// If so, keep track of relative location of click to corner of rectangle
 			room.offsetX = room.X - mouseX;
 			room.offsetY = room.Y - mouseY;
@@ -46,7 +51,7 @@ function mouseReleased() {
 	const rooms = classController.classes;
 	rooms.forEach(room => {
 		if (room.mouseOver) {
-			room.untoggleDragging();
+			room.dragging=false;
 		}
 	})
 }

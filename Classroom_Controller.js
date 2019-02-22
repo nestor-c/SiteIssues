@@ -1,35 +1,52 @@
-import { Rectangle } from "./Rectangle.js";
+import {
+    Rectangle
+} from "./Rectangle.js";
 
 export class Classroom_Controller {
     constructor() {
         this._classes = [];
+        this._cLength = this._classes.length;
+        this._lastActive = null;
     }
-    get classes(){
+    get classes() {
         return this._classes;
     }
+    get cLength() {
+        return this._cLength;
+    }
+    get lastActive() {
+        return this._lastActive
+    }
+    set lastActive(rectangle) {
+        this._lastActive = rectangle;
+    }
+    set classes(rectangle) {
+        this._classes.push(rectangle)
+    }
+    set cLength(newLength) {
+        this._cLength = newLength;
+    }
+
     //TODO: function to check if one rectangle collides with another in realtime.
     //This function may need to be added to sketch.draw to make this happen
 
     //TODO: Method keeping track of squares location.
 
     //TODO: Function that keeps track of currently clicked reactangle and keeps its 
-    //       location relative to other rectangles.
-    
+    //       location relative to other rectangles. 
+
     /**
      *  Active classrooms are those created last or those last clicked on. 
      * @returns void
      */
-    trackActive() {
-        // this.classes.forEach(room=>{
-        //     if(room.mouseOver){
-                
-        //     }
-        // })
-       for(let i=0; i<this._classes.length;i++){
-           if (i === this._classes.length-1){
-               this._classes[i].active = true;
-           }
-       }        
+    trackActive(rectangle) {
+        if (rectangle.dragging) {
+            rectangle.active = true;
+            if (this.lastActive != null){
+                this.lastActive.active = false;
+            }
+            this.lastActive = rectangle;
+        }
     }
     /**
      * @param {!number} num - The number of classrooms to create;
@@ -47,7 +64,7 @@ export class Classroom_Controller {
             for (let i = 0; i < num; i++) {
                 randX = Math.floor(Math.random() * WIDTH);
                 randY = Math.floor(Math.random() * HEIGHT);
-                _classes.push(new Rectangle(randX, randY, defaultSize, defaultSize))
+                _classes.push(new Rectangle(randX, randY, defaultSize, defaultSize));
             }
         } else if (dim != undefined && coord === undefined) {
             if (dim.length != num) {
@@ -99,7 +116,12 @@ export class Classroom_Controller {
      * {200,200} and another at {300, 300} with given size;
      */
     createTestRectangles(size) {
-        this._classes.push(new Rectangle(200, 200, size, size));
-        this._classes.push(new Rectangle(300, 300, size, size));
+        this.classes = new Rectangle(200, 200, size, size);
+        this.cLength = this.classes.length;
+        this.classes = new Rectangle(300, 300, size, size);
+        this.cLength = this.classes.length;
+        this.lastActive = this.classes[this.cLength - 1];
+        this.classes[this.cLength - 1].active = true;
+
     }
 }

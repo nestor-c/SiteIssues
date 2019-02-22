@@ -12,11 +12,11 @@ export class Rectangle{
         this._Height=gHeight;
         this._Width=gWidth;
         this.mouseOver = false;
-        this.dragging = false;
+        this._dragging = false;
         this._offsetX = 0;
         this._offsetY = 0;
         this._active=false;
-        //this.overlapping=[];
+        
     }
     //getters
     get X(){return this._X;}
@@ -25,7 +25,8 @@ export class Rectangle{
     get height(){return this._Height;}
     get offsetX(){return this._offsetX;}
     get offsetY(){return this._offsetY;}
-    get active(){return this._active};
+    get active(){return this._active;}
+    get dragging(){return this._dragging;}
     //setters
     set X(x){ this._X=x;}
     set Y(y){ this._Y=y;}
@@ -34,23 +35,8 @@ export class Rectangle{
     set offsetX(x){this._offsetX=x;}
     set offsetY(y){this._offsetY=y;}
     set active(bool){this._active=bool;}
+    set dragging(bool){this._dragging=bool;}
     //====================
-    setActive(){
-        _active=true;
-    }
-    overlap(c2){
-        let corner = {X:this.X + this.width, Y:this.Y+this.height}
-        let dist_Corner = dist(this.X,this.Y,corner.X, corner.Y)
-        let d = dist(this.X,this.Y,c2.X,c2.Y);
-    
-        if ((this.X === c2.X || this.Y === c2.Y) && d <= this.width){
-            console.log(`Overlapping one`);
-        }
-        else if (this.X != c2.X && this.Y != c2.Y && d <= dist_Corner){
-            console.log('Overlapping two')
-        }
-        else    console.log("False");
-    }
 	_intersection(c2){
         //cube 1
         let lC1 = this.X;
@@ -121,9 +107,6 @@ export class Rectangle{
     toggleDragging(){
         this.dragging = true;
     }
-    untoggleDragging(){
-        this.dragging = false;
-    }
     trackMouseOver(){
         if((mouseX >= this._X && mouseX <= this._X + this._Width) && (mouseY >= this._Y && mouseY <= this._Y + this._Height)){
             this.mouseOver = true;           
@@ -132,15 +115,14 @@ export class Rectangle{
             this.mouseOver = false;
         }
     }
-    
     display(name,u_color,stroke){
        if (u_color === undefined){
-           let dfColor = "#e3e5e8"
+            let dfColor = "#e3e5e8"
             fill(dfColor);
         }
         else fill(u_color); 
         
-        if (stroke === undefined)strokeWeight(1)
+        if (stroke === undefined)strokeWeight(1);
         else strokeWeight(stroke);
 
         rect(this._X,this._Y,this._Height, this._Width);    
