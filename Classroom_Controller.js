@@ -8,6 +8,7 @@ export class Classroom_Controller {
         this._cLength = this._classes.length;
         this._lastActive = null;
     }
+    //getters
     get classes() {
         return this._classes;
     }
@@ -17,6 +18,7 @@ export class Classroom_Controller {
     get lastActive() {
         return this._lastActive
     }
+    //setters
     set lastActive(rectangle) {
         this._lastActive = rectangle;
     }
@@ -25,6 +27,9 @@ export class Classroom_Controller {
     }
     set cLength(newLength) {
         this._cLength = newLength;
+    }
+    updateLength(){
+        this._cLength = this.classes.length;
     }
 
     //TODO: function to check if one rectangle collides with another in realtime.
@@ -40,7 +45,7 @@ export class Classroom_Controller {
      * @returns void
      */
     trackActive(rectangle) {
-        if (rectangle.dragging) {
+        if (rectangle.dragging && this.lastActive != rectangle) {
             rectangle.active = true;
             if (this.lastActive != null){
                 this.lastActive.active = false;
@@ -112,16 +117,21 @@ export class Classroom_Controller {
     }
     /** 
      * @param {number} size - Default size of rectangles
-     * TEST:  Setup two rectangles for testing. One at
+     * Setup two rectangles for testing. One at
      * {200,200} and another at {300, 300} with given size;
      */
     createTestRectangles(size) {
         this.classes = new Rectangle(200, 200, size, size);
-        this.cLength = this.classes.length;
         this.classes = new Rectangle(300, 300, size, size);
-        this.cLength = this.classes.length;
+        this.updateLength();
         this.lastActive = this.classes[this.cLength - 1];
         this.classes[this.cLength - 1].active = true;
-
     }
+   /* preventOverlap(rectangle){
+        //TODO:figure out a way to check this rectangles position with that of others
+
+        if (overlapping){
+            get back to spot they were before they were grabbed
+        }
+    } */
 }

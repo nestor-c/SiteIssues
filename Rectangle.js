@@ -115,18 +115,14 @@ export class Rectangle{
             this.mouseOver = false;
         }
     }
-    display(name,u_color,stroke){
-       if (u_color === undefined){
-            let dfColor = "#e3e5e8"
-            fill(dfColor);
-        }
-        else fill(u_color); 
-        
-        if (stroke === undefined)strokeWeight(1);
-        else strokeWeight(stroke);
-
+    display(name){
+        const dfColor= "#e3e5e8"
+        const activeColor= "#FFFFFF"
+        this.active ? fill(activeColor) : fill(dfColor); 
+        strokeWeight(1);
         rect(this._X,this._Y,this._Height, this._Width);    
         fill(180, 200, 25);
         text(name,this._X + 20 , this._Y + 20)
-    }
+     }
+
 }

@@ -21,11 +21,7 @@ function draw() {
 	
 	for (let i = 0; i < rooms.length; i++) {
 		classController.trackActive(rooms[i]);
-		if (rooms[i].active){
-			let fillColor = '#ffffff';
-			rooms[i].display(`Classroom ${i}`, fillColor);
-		}
-		else { rooms[i].display('Classroom' + i)};
+		rooms[i].display(`Classroom ${i}`);
 		rooms[i].trackMouseOver();
 		rooms[i].move();
 		for (let j = 0; j < rooms.length; j++) {
@@ -38,9 +34,6 @@ function mousePressed(){
 	rooms.forEach(room => {
 		if (room.mouseOver) {
 			room.dragging=true;
-			if (room.dragging){
-				console.log(room)
-			}
 			// If so, keep track of relative location of click to corner of rectangle
 			room.offsetX = room.X - mouseX;
 			room.offsetY = room.Y - mouseY;
