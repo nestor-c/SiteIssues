@@ -37,25 +37,7 @@ export class Rectangle{
     set active(bool){this._active=bool;}
     set dragging(bool){this._dragging=bool;}
     //====================
-	_intersection(c2){
-        //cube 1
-        let lC1 = this.X;
-        let rC1 = this.X+this.width;
-        let tC1 = this.Y;
-        let bC1 = this.Y+this.height;
-        //cube 2
-        let lC2 = c2.X;
-        let rC2 = c2.X+c2.width;
-        let tC2 = c2.Y;
-        let bC2 = c2.Y+c2.height;
-
-        if ((lC1 > rC2 || rC1 < lC2) || (tC1 > bC2 || bC1 < tC2)) {
-            return false;
-        }
-        else{
-            return true;
-        }
-    } 
+ 
     snapTogether(c2){
         //Four sides of calling classroom
         let l = this.X;
@@ -98,12 +80,6 @@ export class Rectangle{
              }    
         }
     }
-    move(){
-        if (this.dragging) {
-            this.X = mouseX + this._offsetX;
-            this.Y = mouseY + this._offsetY;
-          }
-    }   
     toggleDragging(){
         this.dragging = true;
     }
@@ -116,11 +92,28 @@ export class Rectangle{
         }
     }
     display(name){
+        //Rectangle Color
         const dfColor= "#e3e5e8"
         const activeColor= "#FFFFFF"
-        this.active ? fill(activeColor) : fill(dfColor); 
-        strokeWeight(1);
+        //Rectangle Stroke Weight
+        const dfStroke= 1;
+        const activeStroke= 3;
+        //Rectangle Stroke Color
+        const dStrColor = "#000000"
+        const aStrColor = "#FF0000"
+        if (this.active){
+            stroke(aStrColor);
+            fill(activeColor);
+            strokeWeight(activeStroke);
+        }
+        else{
+         fill(dfColor); 
+         strokeWeight(dfStroke); 
+         stroke(dStrColor);
+        }
         rect(this._X,this._Y,this._Height, this._Width);    
+        //Text Color & text stroke
+        noStroke();
         fill(180, 200, 25);
         text(name,this._X + 20 , this._Y + 20)
      }

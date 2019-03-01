@@ -1,6 +1,6 @@
 import {
-    Rectangle
-} from "./Rectangle.js";
+    Classroom
+} from "./Classroom.js";
 
 export class Classroom_Controller {
     constructor() {
@@ -19,11 +19,11 @@ export class Classroom_Controller {
         return this._lastActive
     }
     //setters
-    set lastActive(rectangle) {
-        this._lastActive = rectangle;
+    set lastActive(room) {
+        this._lastActive = room;
     }
-    set classes(rectangle) {
-        this._classes.push(rectangle)
+    set classes(room) {
+        this._classes.push(room)
     }
     set cLength(newLength) {
         this._cLength = newLength;
@@ -31,28 +31,28 @@ export class Classroom_Controller {
     updateLength(){
         this._cLength = this.classes.length;
     }
-
-    //TODO: function to check if one rectangle collides with another in realtime.
-    //This function may need to be added to sketch.draw to make this happen
-
-    //TODO: Method keeping track of squares location.
-
-    //TODO: Function that keeps track of currently clicked reactangle and keeps its 
-    //       location relative to other rectangles. 
-
     /**
      *  Active classrooms are those created last or those last clicked on. 
      * @returns void
      */
-    trackActive(rectangle) {
-        if (rectangle.dragging && this.lastActive != rectangle) {
-            rectangle.active = true;
+    trackActive(room) {
+        if (room.dragging && this.lastActive != room) {
+            room.active = true;
             if (this.lastActive != null){
                 this.lastActive.active = false;
             }
-            this.lastActive = rectangle;
+            this.lastActive = room;
         }
     }
+    /**
+     * @param {Classroom} room - move the room that's being dragged
+     */
+    move(room){
+        if (room.dragging) {
+            room.X = mouseX + room._offsetX;
+            room.Y = mouseY + room._offsetY;
+          }
+    } 
     /**
      * @param {!number} num - The number of classrooms to create;
      * @param {!number} defaultSize - The default size of the Rectangle.
@@ -116,22 +116,64 @@ export class Classroom_Controller {
         }
     }
     /** 
-     * @param {number} size - Default size of rectangles
-     * Setup two rectangles for testing. One at
+     * @param {number} size - Default size of rooms
+     * Setup two rooms for testing. One at
      * {200,200} and another at {300, 300} with given size;
      */
     createTestRectangles(size) {
-        this.classes = new Rectangle(200, 200, size, size);
-        this.classes = new Rectangle(300, 300, size, size);
+        const WIDTH = window.width/2;
+        const HEIGHT = window.height;
+        this.classes = new Classroom(WIDTH/5,HEIGHT/5, size, size,"Jones");
+        this.classes = new Classroom(WIDTH/5*2.5,HEIGHT/5*2.5, size, size,"Kirk");
         this.updateLength();
         this.lastActive = this.classes[this.cLength - 1];
         this.classes[this.cLength - 1].active = true;
     }
+    
+    // overlap(rect){
+    //     //cube 1
+    //     let lC1 = this.X;
+    //     let rC1 = this.X+this.width;
+    //     let tC1 = this.Y;
+    //     let bC1 = this.Y+this.height;
+    //     //cube 2
+    //     let lC2 = rect.X;
+    //     let rC2 = rect.X+rect.width;
+    //     let tC2 = rect.Y;
+    //     let bC2 = rect.Y+rect.height;
+
+    //     if ((lC1 > rC2 || rC1 < lC2) || (tC1 > bC2 || bC1 < tC2)) {
+    //         return false;
+    //     }
+    //     else{
+    //         return true;
+    //     }
+    // }
    /* preventOverlap(rectangle){
         //TODO:figure out a way to check this rectangles position with that of others
 
         if (overlapping){
-            get back to spot they were before they were grabbed
+            rectangle.offsetX = 0;
+            rectangle.offsetY = 0;
         }
     } */
-}
+	testOverlap(cls1, cls2){
+        //cube 1
+        let lC1 = cls1.X;
+        let rC1 = cls1.X+cls1.width;
+        let tC1 = cls1.Y;
+        let bC1 = cls1.Y+cls1.height;
+        //cube 2
+        let lC2 = cls2.X;
+        let rC2 = cls2.X+cls2.width;
+        let tC2 = cls2.Y;
+        let bC2 = cls2.Y+cls2.height;
+
+        if ((lC1 > rC2 || rC1 < lC2) || (tC1 > bC2 || bC1 < tC2)) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+}   
