@@ -8,6 +8,10 @@ export class Classroom_Controller {
         this._cLength = this._classes.length;
         this._lastActive = null;
     }
+    addInfo(){
+        let newDiv = createDiv("This is a test");
+        newDiv.parent('#drawer');
+    }
     //getters
     get classes() {
         return this._classes;
@@ -59,18 +63,22 @@ export class Classroom_Controller {
      * @param {[[number, number]]} [dim] - Specify dimensions for classrooms via a 2D array.
      * @param {[[number, number]]} [coord] - Specifies coordinates for classrooms via a 2D array.
      */
+    //REF: 
     createClassRooms(num, defaultSize, dim, coord) {
-        _classes = [];
+        this._classes = [];
         let randX, randY;
+        //Number and default size not defined
         if (num === undefined || defaultSize === undefined) {
             throw ("Error: Num or defaultSize not specified")
         }
+        //Number and defaultSize 
         if (dim === undefined && coord === undefined) {
             for (let i = 0; i < num; i++) {
-                randX = Math.floor(Math.random() * WIDTH);
-                randY = Math.floor(Math.random() * HEIGHT);
-                _classes.push(new Rectangle(randX, randY, defaultSize, defaultSize));
+                randX = Math.floor(Math.random() * windowWidth);
+                randY = Math.floor(Math.random() * windowHeight);
+                this._classes.push(new Classroom(randX, randY, defaultSize, defaultSize));
             }
+        //Number, default size, dimensions
         } else if (dim != undefined && coord === undefined) {
             if (dim.length != num) {
                 throw ("Dim array length must match num. Leave empty arrays if you don't plan on specifying all.")
@@ -87,6 +95,7 @@ export class Classroom_Controller {
                 randY = Math.floor(Math.random() * HEIGHT);
                 rooms.push(new Rectangle(randX, randY, defaultSize, defaultSize))
             }
+        //Number, default size, coordinates
         } else if (dim === undefined && coord != undefined) {
             if (coord.length != num) {
                 throw ("Coord array length must match num. Leave empty arrays if you don't plan on specifying all.")
@@ -129,7 +138,7 @@ export class Classroom_Controller {
         this.lastActive = this.classes[this.cLength - 1];
         this.classes[this.cLength - 1].active = true;
     }
-    
+
     // overlap(rect){
     //     //cube 1
     //     let lC1 = this.X;

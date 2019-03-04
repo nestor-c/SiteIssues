@@ -1,4 +1,5 @@
-import {Rectangle} from "./Rectangle.js";
+import {Classroom} from "./Classroom.js";
+import {HEIGHT, WIDTH, classController} from "./Main.js";
 
 // Client ID and API key from the Developer Console
 var CLIENT_ID = config.CLIENT_ID;
@@ -15,14 +16,14 @@ var signoutButton = document.getElementById('signout_button');
 /**
  *  On load, called to load the auth2 library and API client library.
  */
-export function handleClientLoad(cRooms) {
-	gapi.load('client:auth2', initClient.bind(null, cRooms));
+export function handleClientLoad(clsController) {
+	gapi.load('client:auth2', initClient.bind(null, clsController));
 }
 /**
  *  Initializes the API client library and sets up sign-in state
  *  listeners.
  */
-function initClient(cRooms) {
+function initClient(clsController) {
 	gapi.client.init({
 		clientId: CLIENT_ID,
 		discoveryDocs: DISCOVERY_DOCS,
@@ -32,9 +33,9 @@ function initClient(cRooms) {
 		/*
 		 *		Issue lies here
 		 * */
-		gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus.bind(null, cRooms));
+		gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus.bind(null, clsController));
 		// Handle the initial sign-in state.
-		updateSigninStatus(cRooms, gapi.auth2.getAuthInstance().isSignedIn.get());
+		updateSigninStatus(clsController, gapi.auth2.getAuthInstance().isSignedIn.get());
 		authorizeButton.onclick = handleAuthClick;
 		signoutButton.onclick = handleSignoutClick;
 	});
@@ -43,16 +44,16 @@ function initClient(cRooms) {
  *  Called when the signed in status changes, to update the UI
  *  appropriately. After a sign-in, the API is called.
  */
-function updateSigninStatus(cRooms, isSignedIn) {
+function updateSigninStatus(clsController, isSignedIn) {
 	if (isSignedIn) {
 		authorizeButton.style.display = 'none';
 		signoutButton.style.display = 'block';
-		listTickets(cRooms);
+		listTickets(clsController);
 	} else if (!isSignedIn) {
 		authorizeButton.style.display = 'block'
 		signoutButton.style.display = 'none'
-		if (cRooms.length != 0) {
-			cRooms.length = 0;
+		if (clsController.length != 0) {
+			clsController.length = 0;
 		}
 	}
 	
@@ -95,7 +96,7 @@ function handleSignoutClick(event) {
 // 	var textContent = document.createTextNode(message + '\n' + '\n');
 // 	pre.appendChild(textContent);
 // }
-function listTickets(cRooms) {
+function listTickets(clsController) {
 	gapi.client.sheets.spreadsheets.values.get({
 		spreadsheetId: '196lNOIgV-n_010Sysg07bf3_R4CP3Fb2mc-Bz3CKdmk',
 		range: 'Live',
@@ -105,9 +106,9 @@ function listTickets(cRooms) {
 			roomNumber.push(element[5]);
 		});
 		let uniqueRooms = findUnique(roomNumber);
-		for (let i = 1; i < uniqueRooms.length; i++) {
-			cRooms.push(new Rectangle(50, 50, 50, 50));
-		}
+		// for (let i = 1; i < uniqueRooms.length; i++) {
+			classController.createClassRooms(uniqueRooms.length,100);
+		// }
 	}, function (response) {
 		console.log('Error: ' + response.result.error.message);
 	})
