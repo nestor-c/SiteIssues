@@ -1,18 +1,18 @@
 import {Classroom} from "./Classroom.js";
-import {HEIGHT, WIDTH, classController} from "./Main.js";
+import {WINDOWHEIGHT, WINDOWWIDTH, classController} from "./Main.js";
 
 // Client ID and API key from the Developer Console
-var CLIENT_ID = config.CLIENT_ID;
+let CLIENT_ID = config.CLIENT_ID;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
-var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+let DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
+let SCOPES = "https://www.googleapis.com/auth/spreadsheets";
 
-var authorizeButton = document.getElementById('authorize_button');
-var signoutButton = document.getElementById('signout_button');
+let authorizeButton = document.getElementById('authorize_button');
+let signoutButton = document.getElementById('signout_button');
 /**
  *  On load, called to load the auth2 library and API client library.
  */
@@ -92,11 +92,11 @@ function handleSignoutClick(event) {
 //  * @param {string} message Text to be placed in pre element.
 //  */
 // function appendPre(message) {
-// 	var pre = document.getElementById('content');
-// 	var textContent = document.createTextNode(message + '\n' + '\n');
+// 	let pre = document.getElementById('content');
+// 	let textContent = document.createTextNode(message + '\n' + '\n');
 // 	pre.appendChild(textContent);
 // }
-function listTickets(clsController) {
+function listTickets(clsController){
 	gapi.client.sheets.spreadsheets.values.get({
 		spreadsheetId: '196lNOIgV-n_010Sysg07bf3_R4CP3Fb2mc-Bz3CKdmk',
 		range: 'Live',

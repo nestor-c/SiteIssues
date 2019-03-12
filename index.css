@@ -1,0 +1,8 @@
+body{
+    overflow:scroll;
+}
+#Title{
+    text-align: center;
+    font-size: 2em;
+    overflow:hidden;
+}

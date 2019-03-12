@@ -16,7 +16,6 @@ export class Rectangle{
         this._offsetX = 0;
         this._offsetY = 0;
         this._active=false;
-        
     }
     //getters
     get X(){return this._X;}
@@ -27,6 +26,7 @@ export class Rectangle{
     get offsetY(){return this._offsetY;}
     get active(){return this._active;}
     get dragging(){return this._dragging;}
+    
     //setters
     set X(x){ this._X=x;}
     set Y(y){ this._Y=y;}
@@ -101,6 +101,12 @@ export class Rectangle{
         //Rectangle Stroke Color
         const dStrColor = "#000000"
         const aStrColor = "#FF0000"
+        //Text Color
+        const txtClr= "rgb(180, 200, 25)";
+        //Info Button
+        const infoClr ="rgb(0, 200, 200)"
+        const fontSize = 13;
+        
         if (this.active){
             stroke(aStrColor);
             fill(activeColor);
@@ -111,10 +117,11 @@ export class Rectangle{
          strokeWeight(dfStroke); 
          stroke(dStrColor);
         }
-        rect(this._X,this._Y,this._Height, this._Width);    
+        rect(this._X,this._Y,this._Height, this._Width);
         //Text Color & text stroke
         noStroke();
-        fill(180, 200, 25);
+        fill(txtClr);
+        textSize(fontSize);
         text(name,this._X + 20 , this._Y + 20)
      }
 

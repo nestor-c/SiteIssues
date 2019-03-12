@@ -8,10 +8,6 @@ export class Classroom_Controller {
         this._cLength = this._classes.length;
         this._lastActive = null;
     }
-    addInfo(){
-        let newDiv = createDiv("This is a test");
-        newDiv.parent('#drawer');
-    }
     //getters
     get classes() {
         return this._classes;
@@ -63,66 +59,10 @@ export class Classroom_Controller {
      * @param {[[number, number]]} [dim] - Specify dimensions for classrooms via a 2D array.
      * @param {[[number, number]]} [coord] - Specifies coordinates for classrooms via a 2D array.
      */
-    //REF: 
-    createClassRooms(num, defaultSize, dim, coord) {
-        this._classes = [];
-        let randX, randY;
-        //Number and default size not defined
-        if (num === undefined || defaultSize === undefined) {
-            throw ("Error: Num or defaultSize not specified")
-        }
-        //Number and defaultSize 
-        if (dim === undefined && coord === undefined) {
-            for (let i = 0; i < num; i++) {
-                randX = Math.floor(Math.random() * windowWidth);
-                randY = Math.floor(Math.random() * windowHeight);
-                this._classes.push(new Classroom(randX, randY, defaultSize, defaultSize));
-            }
-        //Number, default size, dimensions
-        } else if (dim != undefined && coord === undefined) {
-            if (dim.length != num) {
-                throw ("Dim array length must match num. Leave empty arrays if you don't plan on specifying all.")
-            }
-            for (let i = 0; i < num; i++) {
-                if (dim[i].length != 0 && dim[i].length === 2) {
-                    randX = Math.floor(Math.random() * WIDTH);
-                    randY = Math.floor(Math.random() * HEIGHT);
-                    _classes.push(new Rectangle(randX, randY, dim[i][0], dim[i][1]));
-                } else if (dim[i].length != 2) {
-                    throw ("Dim array: " + i + " should have length 2.[h,w]")
-                }
-                randX = Math.floor(Math.random() * WIDTH);
-                randY = Math.floor(Math.random() * HEIGHT);
-                rooms.push(new Rectangle(randX, randY, defaultSize, defaultSize))
-            }
-        //Number, default size, coordinates
-        } else if (dim === undefined && coord != undefined) {
-            if (coord.length != num) {
-                throw ("Coord array length must match num. Leave empty arrays if you don't plan on specifying all.")
-            }
-            for (let i = 0; i < num; i++) {
-                if (coord[i].length != 0 && coord[i].length === 2) _classes.push(new Rectangle(coord[i][0], coord[i][1], 200, 200));
-                else if (coord[i].length != 2) {
-                    throw ("Coord array: " + i + " should have length 2.[x,y]")
-                }
-                randX = Math.floor(Math.random() * WIDTH);
-                randY = Math.floor(Math.random() * HEIGHT);
-                _classes.push(new Rectangle(randX, randY, defaultSize, defaultSize))
-            }
-        } else if (dim != undefined && coord != undefined) {
-            if (coord.length != num && dim.length != num) {
-                throw ("Coord && dim array length must match num. Leave empty arrays if you don't plan on specifying all.")
-            }
-            for (let i = 0; i < num; i++) {
-                if (coord[i].length === 2 && dim[i].length === 2) _classes.push(new Rectangle(coord[i][0], coord[i][1], dim[i][0], dim[i][1]));
-                else if (coord[i].length != 2 || coord[i].length != 0) {
-                    throw ("Coord array: " + i + " should have length 2 or be empty.[x,y]")
-                }
-                randX = Math.floor(Math.random() * WIDTH);
-                randY = Math.floor(Math.random() * HEIGHT);
-                _classes.push(new Rectangle(randX, randY, defaultSize, defaultSize))
-            }
-        }
+    //REF: Create a function that adds new classrooms without 
+    //overlapping them and to fit within the constraints of the canvas.
+    createClassRooms(qty, defaultSize) {
+        
     }
     /** 
      * @param {number} size - Default size of rooms
@@ -139,25 +79,11 @@ export class Classroom_Controller {
         this.classes[this.cLength - 1].active = true;
     }
 
-    // overlap(rect){
-    //     //cube 1
-    //     let lC1 = this.X;
-    //     let rC1 = this.X+this.width;
-    //     let tC1 = this.Y;
-    //     let bC1 = this.Y+this.height;
-    //     //cube 2
-    //     let lC2 = rect.X;
-    //     let rC2 = rect.X+rect.width;
-    //     let tC2 = rect.Y;
-    //     let bC2 = rect.Y+rect.height;
+    overlap(){
+      for(let i=0;i<this.classes.length;i++){
 
-    //     if ((lC1 > rC2 || rC1 < lC2) || (tC1 > bC2 || bC1 < tC2)) {
-    //         return false;
-    //     }
-    //     else{
-    //         return true;
-    //     }
-    // }
+      }
+    }
    /* preventOverlap(rectangle){
         //TODO:figure out a way to check this rectangles position with that of others
 
