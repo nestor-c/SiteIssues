@@ -37,26 +37,23 @@ export class Drawer{
     }
     _displayButton(){
          //Text Consts
-         const TXT_CLR = 0;
-         
-         const FNT_SIZE = this.BUTTON.Height;  
+         const TXT_CLR = 0;  
+         const FNT_SIZE = 16;
         //Button shape
         noStroke();
         strokeWeight(1);
         fill(this.BUTTON.Color);
-        //TODO: Figure out a good way to figure out the width of the button.
         rect(this.BUTTON.X,this.BUTTON.Y,this.BUTTON.Width,FNT_SIZE);
         // Button Text
-        //REF: Remove magic numbers
         fill(TXT_CLR).
         textSize(FNT_SIZE).
         text('CLOSE',this.BUTTON.X,this.BUTTON.Y,this.BUTTON.Width,this.BUTTON.Height).
         noStroke();
            
     }
-    _displayInformation(){
+    _displayInformation(data=""){
         const tS= 12;
-        const info = ""
+        const info = data;
         textSize(tS);
         text(info,this.BUTTON.X, this.BUTTON.Height + textSize(),this.DRAWER.Width,this.DRAWER.Height);
     }
@@ -66,10 +63,10 @@ export class Drawer{
             this.hidden = true;
     }  
   
-    display(){
+    display(data){
         this._displayDrawer();
         this._displayButton();
-        this._displayInformation();
+        this._displayInformation(data);
     }
 
     addText(words){

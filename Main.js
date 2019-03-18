@@ -1,12 +1,13 @@
 import {Classroom_Controller} from "./Classroom_Controller.js"
 import {Drawer} from "./Drawer.js"
-//import {handleClientLoad} from './gAPI.js'
+import {handleClientLoad} from './gAPI.js'
 
 export const WINDOWHEIGHT = window.innerHeight;
 export const WINDOWWIDTH = window.innerWidth;
 export const DOCHEIGHT = document.body.clientHeight;
 export const DOCWIDTH = document.body.clientWidth;
 export const classController = new Classroom_Controller();
+export let data = [];
 
 const DRAWER =  new Drawer(1,2,3,4);
 
@@ -16,14 +17,14 @@ function setup() {
 	myCanvas.parent('body');
 	classController.createTestRectangles(100);
 	DRAWER.addText('test',DRAWER.BUTTON.Height+textSize());
-	// window.onload = handleClientLoad(classController);
+	window.onload = handleClientLoad(classController);
 }
 function draw() {
 	const rooms = classController.classes;
 	const BG_COLOR = '#b7bfcc';
 	background(BG_COLOR);
 	
-	if (!DRAWER.hidden){
+	if (!DRAWER.hidden && data != null){
 		DRAWER.display();
 	}
 	for (let i = 0; i < rooms.length; i++) {

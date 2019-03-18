@@ -3,14 +3,11 @@ import {WINDOWHEIGHT, WINDOWWIDTH, classController} from "./Main.js";
 
 // Client ID and API key from the Developer Console
 let CLIENT_ID = config.CLIENT_ID;
-
 // Array of API discovery doc URLs for APIs used by the quickstart
 let DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
-
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
 let SCOPES = "https://www.googleapis.com/auth/spreadsheets";
-
 let authorizeButton = document.getElementById('authorize_button');
 let signoutButton = document.getElementById('signout_button');
 /**
@@ -30,9 +27,6 @@ function initClient(clsController) {
 		scope: SCOPES
 	}).then(function () {
 		// Listen for sign-in state changes.
-		/*
-		 *		Issue lies here
-		 * */
 		gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus.bind(null, clsController));
 		// Handle the initial sign-in state.
 		updateSigninStatus(clsController, gapi.auth2.getAuthInstance().isSignedIn.get());
@@ -40,15 +34,11 @@ function initClient(clsController) {
 		signoutButton.onclick = handleSignoutClick;
 	});
 }
-/**
- *  Called when the signed in status changes, to update the UI
- *  appropriately. After a sign-in, the API is called.
- */
 function updateSigninStatus(clsController, isSignedIn) {
 	if (isSignedIn) {
 		authorizeButton.style.display = 'none';
 		signoutButton.style.display = 'block';
-		listTickets(clsController);
+		getData(clsController);
 	} else if (!isSignedIn) {
 		authorizeButton.style.display = 'block'
 		signoutButton.style.display = 'none'
@@ -96,19 +86,23 @@ function handleSignoutClick(event) {
 // 	let textContent = document.createTextNode(message + '\n' + '\n');
 // 	pre.appendChild(textContent);
 // }
-function listTickets(clsController){
+function getData(clsController){
 	gapi.client.sheets.spreadsheets.values.get({
 		spreadsheetId: '196lNOIgV-n_010Sysg07bf3_R4CP3Fb2mc-Bz3CKdmk',
 		range: 'Live',
 	}).then(function (response) {
-		let roomNumber = [];
+		let tickets = [];
 		response.result.values.forEach(element => {
-			roomNumber.push(element[5]);
+			tickets.push(element[5]);
 		});
-		let uniqueRooms = findUnique(roomNumber);
-		// for (let i = 1; i < uniqueRooms.length; i++) {
-			classController.createClassRooms(uniqueRooms.length,100);
-		// }
+		let uniqueRooms = findUnique(tickets);
+		//You need to normalize the results
+		//Find a consistent pattern 
+		for(let entry of uniqueRooms){
+			console.log(`${formatData(entry.toUpperCase())}`)
+			// console.log(formatData());
+		}
+		
 	}, function (response) {
 		console.log('Error: ' + response.result.error.message);
 	})
@@ -116,8 +110,38 @@ function listTickets(clsController){
 
 function findUnique(arr) {
 	const unique = (value, index, self) => {
+		//Checks for the first occurence of value.
+		//If indexOf value is not the same as the current index then that means
+		// that number has occured once before.
 		return self.indexOf(value) === index;
 	}
+	//An array filled with only those values which passed the unique filter.
 	const uniqueValues = arr.filter(unique);
 	return uniqueValues;
+}
+
+/**
+ * @param {string} data - string containing room info
+ */
+//TODO:Sanitize room input data using regex
+function formatData(data){
+	//let data = 'P-3'
+	let firstRule  = /([a-z]-{1})(\d+)/i
+	let secondRule = /([a-z]{1})(\d+)/i
+		if (firstRule.test(data)){
+			let extracted=data.match(firstRule);
+			if (extracted[2] >= 10) return extracted[0];
+			else if (extracted[2] < 10) return extracted[1]+0+extracted[2]
+		}
+		else if(secondRule.test(data)){
+			let extracted = data.match(secondRule)
+			if (extracted[2] >= 10){
+				return extracted[1] + '-'+ extracted[2];
+			}
+			else if (extracted[2] < 10){
+				return `${extracted[1]}-0${extracted[2]}`
+			}
+		}
+		
+			
 }
