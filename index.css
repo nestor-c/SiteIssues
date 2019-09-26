@@ -1,8 +1,70 @@
 body{
-    overflow:scroll;
+    overflow: hidden;
+    margin:0;
+    padding:0;    
 }
-#Title{
-    text-align: center;
-    font-size: 2em;
-    overflow:hidden;
+.flex-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height:100%;
+    width:100%;
+    margin:0;
+    padding:0;
+    justify-content: space-evenly;
+}
+.flex-container #NavSidebar{
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.flex-container #Main{
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: right;
+}
+    #Period{
+        width:10%;
+        height:15%;
+        border-radius: 5%;
+        background-color: grey;
+    }
+    #Period p{
+        color: white;
+        font-size: 2em;
+    }
+.content{
+    height:100%;
+    overflow:visible;
+}
+#NavSidebar{
+    background-color: rgb(26, 24, 24);
+    width:20%;
+}
+    #SIGNOUT{
+        border-radius: 5%;
+        text-decoration: none;
+        border: none;
+        background-color: rgba(109, 109, 109, 0.74);
+        font-size: 1.5em;
+        color:black;
+        display:block;
+    }
+    
+    #PIC{
+        width:80%;
+        height:20%;
+        border-radius: 5%;
+        background-color: grey;
+    }
+    #upload{
+        display:block;
+    }
+    #PROFILE{
+        color:rgb(228, 228, 228);
+    }
+
+#Canvas{
+    width:80%;
+    background-color: rgb(75, 70, 70);
 }

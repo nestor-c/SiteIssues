@@ -14,7 +14,10 @@ let signoutButton = document.getElementById('signout_button');
  *  On load, called to load the auth2 library and API client library.
  */
 export function handleClientLoad(clsController) {
-	gapi.load('client:auth2', initClient.bind(null, clsController));
+	gapi.load('client:auth2', {
+		callback: initClient.bind(null,clsController)	
+	}
+	);
 }
 /**
  *  Initializes the API client library and sets up sign-in state
@@ -25,23 +28,23 @@ function initClient(clsController) {
 		clientId: CLIENT_ID,
 		discoveryDocs: DISCOVERY_DOCS,
 		scope: SCOPES
-	}).then(function () {
+	})
+	.then(function () {
 		// Listen for sign-in state changes.
 		gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus.bind(null, clsController));
 		// Handle the initial sign-in state.
 		updateSigninStatus(clsController, gapi.auth2.getAuthInstance().isSignedIn.get());
-		authorizeButton.onclick = handleAuthClick;
 		signoutButton.onclick = handleSignoutClick;
 	});
 }
 function updateSigninStatus(clsController, isSignedIn) {
 	if (isSignedIn) {
-		authorizeButton.style.display = 'none';
 		signoutButton.style.display = 'block';
-		getData(clsController);
+		//TODO: Get rid of this. GetData should be an option otherwise
+		// initial login will be slow.
 	} else if (!isSignedIn) {
-		authorizeButton.style.display = 'block'
 		signoutButton.style.display = 'none'
+		handleAuthClick();
 		if (clsController.length != 0) {
 			clsController.length = 0;
 		}
@@ -99,7 +102,7 @@ function getData(clsController){
 		//You need to normalize the results
 		//Find a consistent pattern 
 		for(let entry of uniqueRooms){
-			console.log(`${formatData(entry.toUpperCase())}`)
+			console.log(`${sanitizeData(entry.toUpperCase())}`)
 			// console.log(formatData());
 		}
 		
@@ -112,7 +115,7 @@ function findUnique(arr) {
 	const unique = (value, index, self) => {
 		//Checks for the first occurence of value.
 		//If indexOf value is not the same as the current index then that means
-		// that number has occured once before.
+		// that number has occured once before and isn't pushed on.
 		return self.indexOf(value) === index;
 	}
 	//An array filled with only those values which passed the unique filter.
@@ -124,24 +127,18 @@ function findUnique(arr) {
  * @param {string} data - string containing room info
  */
 //TODO:Sanitize room input data using regex
-function formatData(data){
-	//let data = 'P-3'
-	let firstRule  = /([a-z]-{1})(\d+)/i
-	let secondRule = /([a-z]{1})(\d+)/i
-		if (firstRule.test(data)){
-			let extracted=data.match(firstRule);
-			if (extracted[2] >= 10) return extracted[0];
-			else if (extracted[2] < 10) return extracted[1]+0+extracted[2]
-		}
-		else if(secondRule.test(data)){
-			let extracted = data.match(secondRule)
-			if (extracted[2] >= 10){
-				return extracted[1] + '-'+ extracted[2];
+function sanitizeData(data){
+	let Rule  = /([a-z]{1})(-)*(\d+)/i
+	let uniqueSanitized=[];
+		if (Rule.test(data)){
+			let extracted=data.match(Rule);
+			if(parseInt(extracted[3])<10){
+				uniqueSanitized.push(`${extracted[1]}-0${parseInt(extracted[3])}`);
 			}
-			else if (extracted[2] < 10){
-				return `${extracted[1]}-0${extracted[2]}`
+			else{
+				uniqueSanitized.push(`${extracted[1]}-${parseInt(extracted[3])}`);
 			}
-		}
-		
-			
+		}	
+		else { return `Data: '${data}', invalid input`};
+		return uniqueSanitized;		
 }

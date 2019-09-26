@@ -4,17 +4,16 @@ import {handleClientLoad} from './gAPI.js'
 
 export const WINDOWHEIGHT = window.innerHeight;
 export const WINDOWWIDTH = window.innerWidth;
-export const DOCHEIGHT = document.body.clientHeight;
-export const DOCWIDTH = document.body.clientWidth;
+const HEIGHTFRACTION =.8;
+const WIDTHFRACTION =.8;
 export const classController = new Classroom_Controller();
 export let data = [];
-
 const DRAWER =  new Drawer(1,2,3,4);
 
 function setup() {
-	const myCanvas = createCanvas(WINDOWWIDTH, WINDOWHEIGHT);
-	myCanvas.id('canvas');
-	myCanvas.parent('body');
+	const myCanvas = createCanvas(WINDOWWIDTH*WIDTHFRACTION, WINDOWHEIGHT*HEIGHTFRACTION);
+	myCanvas.style('display','inline-block');
+	myCanvas.parent('Canvas');
 	classController.createTestRectangles(100);
 	DRAWER.addText('test',DRAWER.BUTTON.Height+textSize());
 	window.onload = handleClientLoad(classController);
@@ -23,7 +22,6 @@ function draw() {
 	const rooms = classController.classes;
 	const BG_COLOR = '#b7bfcc';
 	background(BG_COLOR);
-	
 	if (!DRAWER.hidden && data != null){
 		DRAWER.display();
 	}
@@ -52,7 +50,6 @@ function mousePressed(){
 
 		}
 	}
-	
 }
 function mouseReleased() {
 	const rooms = classController.classes;

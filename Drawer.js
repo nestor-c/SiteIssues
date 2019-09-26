@@ -48,8 +48,7 @@ export class Drawer{
         fill(TXT_CLR).
         textSize(FNT_SIZE).
         text('CLOSE',this.BUTTON.X,this.BUTTON.Y,this.BUTTON.Width,this.BUTTON.Height).
-        noStroke();
-           
+        noStroke();     
     }
     _displayInformation(data=""){
         const tS= 12;
@@ -62,18 +61,14 @@ export class Drawer{
             && (mouseY >= this.BUTTON.Y && mouseY <= this.BUTTON.Y+this.BUTTON.Height))
             this.hidden = true;
     }  
-  
     display(data){
         this._displayDrawer();
         this._displayButton();
         this._displayInformation(data);
     }
-
     addText(words){
         const X = this.BUTTON.X;
         const Y = this.BUTTON.Height + textSize();
         text(words, X, Y);
     }
-
-
 }

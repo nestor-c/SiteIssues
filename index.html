@@ -6,20 +6,44 @@
 		<meta charset="utf-8" />
 	</head>
 	<body id="body" style="height:100%;width:100%">
-		<p id= "Title">
-			Tech Ticket Visualized
-			<button id="authorize_button" style="display:none;font-size:1.2em;margin-bottom:.5%">Authorize</button>
-			<button id="signout_button" style="display:none;font-size:1.2em;margin-bottom:.5%">Sign Out</button>
-		</p>
+		<div class="flex-container">
+			<div id="NavSidebar" class="content, flex-container">			
+				<div id="PIC">
+				</div>
+				<form id="UPFORM" method="POST" action=./index.js>
+						<input type="file" name="fileupload" value="fileupload" id="fileupload" style="color:white	">
+						<input type="submit" value="submit">
+				</form>		
+				<div id="PROFILE">
+					<p> 
+						Nestor Cortes <br/>
+						School: Cesar Chavez Middle School <br/>
+						Position: Computer Specialist I - MAC
+					</p>
+				</div>
+				<div id="SIGNOUT">
+						<button id="SIGNOUT">Sign Out</button>	
+				</div>
+			</div>
+			<div id="Main" class="flex-container">
+				<div id="Period">
+					<p></p>
+				</div>
+				<div id="Canvas" class="content">
+				</div>
+			</div>
+		</div>
 		
-		</div>	
-		<!-- Scripts -->
-		<script async src="config.js" type="text/javascript"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
-		<script async src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.js"></script>	
-		<script async src="gAPI.js" type='module'></script>
-		<script async src="Main.js" type='module'></script>
-		<script async defer src="https://apis.google.com/js/api.js"></script> 
-		<!-- onload="handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()" -->
+		
+		<!-- ============================ Scripts ============================ -->
+			<script async src="config.js" type="text/javascript"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
+			<script async src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.js"></script>	
+			<script async src="gAPI.js" type='module'></script>
+			<script async src="Main.js" type='module'></script>
+			<script async src="Period.js" type='module'></script>
+			<script async defer src="https://apis.google.com/js/api.js"></script> 
+			 <!-- onload="handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"  -->
+		<!-- ============================ Scripts ============================ -->
 	</body>
 </html>
