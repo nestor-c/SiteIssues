@@ -1,9 +1,11 @@
-var period = document.getElementById("Period");
-var date = new Date();
-var date2 = new Date();
-date.setSeconds(9);
+var displayPeriod = document.getElementById("Period");
 
+let periods = new Date();
+periods.setHours(7);
+periods.setMinutes(35);
 
-if (date2.getSeconds() < date.getSeconds()){
-    period.textContent = "Period 1";
+let now = new Date();
+
+if (now.getHours() < periods.getHours() || (now.getHours() <= periods.getHours() && now.getMinutes() < periods.getMinutes)){
+    displayPeriod.firstChild.textContent = "Before first";
 }
